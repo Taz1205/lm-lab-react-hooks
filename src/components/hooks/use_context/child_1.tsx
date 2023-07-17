@@ -1,10 +1,10 @@
-export const Child1: React.FC<{ dark: boolean }> = ({ dark }) => {
-	const theme = {
-		backgroundColor: dark ? '#333' : '#CCC',
-		color: dark ? 'white' : '#333',
-		padding: '2rem',
-		margin: '2rem',
-	};
+import { useContext } from "react";
+import { ThemeContext } from "./parent"; // Remember to import the context from Parent.tsx
 
-	return <div style={theme}>Child 1</div>;
+// Remove the props since the theme is now coming from the context
+export const Child1: React.FC = () => {
+  // Use the useContext hook to access the theme from the context
+  const theme = useContext(ThemeContext);
+
+  return <div style={theme}>Child 1</div>;
 };
