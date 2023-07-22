@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { isError } from "../../../helpers/is_error";
 
 /** This is the response that TypiCode gives for the /todos/ endpoint */
-export interface TodoResponse {
+interface TodoResponse {
   userId: number;
   id: number;
   title: string;

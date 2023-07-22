@@ -1,10 +1,11 @@
-import { useContext } from "react";
-import { ThemeContext } from "./parent"; // Remember to import the context from Parent.tsx
+import { useThemeContext } from "./use_theme_context";
 
-// Remove the props since the theme is now coming from the context
-export const Child2: React.FC = () => {
-  // Use the useContext hook to access the theme from the context
-  const theme = useContext(ThemeContext);
+export const Child2 = () => {
+  const { theme, toggleTheme } = useThemeContext();
 
-  return <div style={theme}>Child 2</div>;
+  return (
+    <div style={theme}>
+      Child 2 <button onClick={toggleTheme}>Toggle Theme</button>
+    </div>
+  );
 };
