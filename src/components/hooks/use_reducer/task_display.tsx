@@ -1,56 +1,70 @@
-import { useState } from "react";
-import type { Task } from "./todo_app";
+import { useReducer } from "react";
+import { Task } from "./todo_app";
+
+type ActionType =
+  | { type: "TOGGLE_EDIT_MODE" }
+  | { type: "CHANGE_TEXT"; text: string };
+
+function reducer(
+  state: { isEditing: boolean; text: string },
+  action: ActionType
+) {
+  switch (action.type) {
+    case "TOGGLE_EDIT_MODE":
+      return { ...state, isEditing: !state.isEditing };
+    case "CHANGE_TEXT":
+      return { ...state, text: action.text };
+    default:
+      throw new Error();
+  }
+}
 
 export const TaskDisplay: React.FC<{
-  task: {
-    id: number;
-    text: string;
-    done: boolean;
-  };
+  task: Task;
   onChange: (task: Task) => void;
   onDelete: (taskId: number) => void;
 }> = ({ task, onChange, onDelete }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [state, dispatch] = useReducer(reducer, {
+    isEditing: false,
+    text: task.text,
+  });
 
-  if (isEditing) {
+  if (state.isEditing) {
     return (
-      <label className="label-container">
-        <input type="checkbox" />
+      <>
         <input
           className="input"
-          value={task.text}
+          value={state.text}
           type="text"
           onChange={(e) => {
-            onChange({
-              ...task,
-              text: e.target.value,
-            });
+            dispatch({ type: "CHANGE_TEXT", text: e.target.value });
           }}
         />
         <button
           className="task-list__button"
-          onClick={() => setIsEditing(!isEditing)}
+          onClick={() => {
+            onChange({ ...task, text: state.text });
+            dispatch({ type: "TOGGLE_EDIT_MODE" });
+          }}
         >
           Save
+        </button>
+      </>
+    );
+  } else {
+    return (
+      <div>
+        <p>{task.text}</p>
+        <button
+          className="task-list__button"
+          onClick={() => dispatch({ type: "TOGGLE_EDIT_MODE" })}
+        >
+          Edit
         </button>
         <button className="task-list__button" onClick={() => onDelete(task.id)}>
           Delete
         </button>
-      </label>
-    );
-  } else {
-    return (
-      <label className="label-container">
-        <input type="checkbox" />
-        <p className="task-list__text">{task.text} </p>
-        <button
-          className="task-list__button"
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          Edit
-        </button>
-        <button className="task-list__button">Delete</button>
-      </label>
+      </div>
     );
   }
 };

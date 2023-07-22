@@ -16,8 +16,10 @@ export const AddTask: React.FC<{ onAddTask: (text: string) => void }> = ({
 
       <button
         onClick={() => {
-          setText("");
-          onAddTask(text);
+          if (text.trim() !== "") {
+            onAddTask(text);
+            setText("");
+          }
         }}
       >
         Add
