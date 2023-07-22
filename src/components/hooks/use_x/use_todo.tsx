@@ -6,9 +6,12 @@ export interface TodoResponse {
   completed: boolean;
 }
 
-export function useFetch<T = TodoResponse>(url: string) {
+export const useFetch = <T = TodoResponse,>(
+  url: string
+): { data: T | null; isFetching: boolean; error: string | null } => {
   const [data, setData] = useState<T | null>(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,13 +20,13 @@ export function useFetch<T = TodoResponse>(url: string) {
         const response = await fetch(url);
         if (response.ok) {
           const json: T = await response.json();
-          await new Promise((resolve) => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 3000));
           setData(json);
         } else {
           throw new Error("Error fetching data");
         }
       } catch (e) {
-        console.error(e);
+        setError((e as Error).message);
       } finally {
         setIsFetching(false);
       }
@@ -31,5 +34,5 @@ export function useFetch<T = TodoResponse>(url: string) {
     fetchData();
   }, [url]);
 
-  return { data, isFetching };
-}
+  return { data, isFetching, error };
+};
