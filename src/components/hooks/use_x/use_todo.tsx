@@ -6,7 +6,7 @@ export interface TodoResponse {
   completed: boolean;
 }
 
-export const useFetch = <T = TodoResponse,>(
+export const useTodo = <T = TodoResponse,>(
   url: string
 ): { data: T | null; isFetching: boolean; error: string | null } => {
   const [data, setData] = useState<T | null>(null);

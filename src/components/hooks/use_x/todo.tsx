@@ -1,7 +1,7 @@
-import { TodoResponse, useFetch } from "./use_todo";
+import { TodoResponse, useTodo } from "./use_todo";
 
 export const Todo1 = () => {
-  const { data, isFetching, error } = useFetch<TodoResponse>(
+  const { data, isFetching, error } = useTodo<TodoResponse>(
     "https://jsonplaceholder.typicode.com/todos/1"
   );
 
@@ -18,7 +18,7 @@ export const Todo1 = () => {
 };
 
 export const Todo2 = () => {
-  const { data, isFetching, error } = useFetch<TodoResponse>(
+  const { data, isFetching, error } = useTodo<TodoResponse>(
     "https://jsonplaceholder.typicode.com/todos/2"
   );
 

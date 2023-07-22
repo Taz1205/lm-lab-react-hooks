@@ -9,6 +9,7 @@ import { CountCats } from "./components/hooks/use_state/count_cats";
 // import { TaskApp } from './components/hooks/use_reducer/todo_app';
 import { Section } from "./components/section";
 import { TaskApp } from "./components/hooks/use_reducer/todo_app";
+import { StarWarsCharacter } from "./components/hooks/use_x(SWAPI)/star_wars_character";
 
 function App() {
   return (
@@ -44,6 +45,11 @@ function App() {
         <Section>
           This is an extension!
           <TaskApp />
+        </Section>
+
+        <Section>
+          This is another extension about custom hooks!
+          <StarWarsCharacter />
         </Section>
       </div>
     </>
