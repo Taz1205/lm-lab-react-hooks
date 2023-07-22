@@ -10,6 +10,8 @@ import { CountCats } from "./components/hooks/use_state/count_cats";
 import { Section } from "./components/section";
 import { TaskApp } from "./components/hooks/use_reducer/todo_app";
 import { StarWarsCharacter } from "./components/hooks/use_x(SWAPI)/star_wars_character";
+import { Pokemon } from "./components/hooks/use_x(Pokemon)/pokemon";
+import { CatImage } from "./components/hooks/use_x(CatImage)/cat_image";
 
 function App() {
   return (
@@ -50,6 +52,12 @@ function App() {
         <Section>
           This is another extension about custom hooks!
           <StarWarsCharacter />
+        </Section>
+        <Section>
+          <Pokemon />
+        </Section>
+        <Section>
+          <CatImage />
         </Section>
       </div>
     </>

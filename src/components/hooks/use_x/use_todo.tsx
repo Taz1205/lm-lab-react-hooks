@@ -5,9 +5,13 @@ export interface TodoResponse {
   title: string;
   completed: boolean;
 }
+export interface UseTodoOptions {
+  headers?: Record<string, string>;
+}
 
 export const useTodo = <T = TodoResponse,>(
-  url: string
+  url: string,
+  options: UseTodoOptions = {}
 ): { data: T | null; isFetching: boolean; error: string | null } => {
   const [data, setData] = useState<T | null>(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -17,7 +21,7 @@ export const useTodo = <T = TodoResponse,>(
     const fetchData = async () => {
       setIsFetching(true);
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, { headers: options.headers });
         if (response.ok) {
           const json: T = await response.json();
           await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -32,7 +36,7 @@ export const useTodo = <T = TodoResponse,>(
       }
     };
     fetchData();
-  }, [url]);
+  }, [options.headers, url]);
 
   return { data, isFetching, error };
 };
