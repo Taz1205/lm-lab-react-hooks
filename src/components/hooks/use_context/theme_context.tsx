@@ -7,6 +7,7 @@ interface ThemeContextProps {
     padding: string;
     margin: string;
   };
+  isDarkTheme: boolean;
   toggleTheme: () => void;
 }
 
@@ -17,6 +18,7 @@ export const ThemeContext = createContext<ThemeContextProps>({
     padding: "",
     margin: "",
   },
+  isDarkTheme: false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggleTheme: () => {},
 });
@@ -43,6 +45,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     <ThemeContext.Provider
       value={{
         theme,
+        isDarkTheme: darkTheme,
         toggleTheme,
       }}
     >
