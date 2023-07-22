@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { isError } from "../../../helpers/is_error";
-
+import { useState, useEffect } from "react";
 export interface TodoResponse {
   userId: number;
   id: number;
@@ -8,22 +6,24 @@ export interface TodoResponse {
   completed: boolean;
 }
 
-export const useTodo = (url: string) => {
-  const [data, setData] = useState<TodoResponse>();
-  const [isFetching, setIsFetching] = useState(true);
+export function useFetch<T = TodoResponse>(url: string) {
+  const [data, setData] = useState<T | null>(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsFetching(true);
       try {
         const response = await fetch(url);
-        if (response.status === 200) {
-          const json = await response.json();
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+        if (response.ok) {
+          const json: T = await response.json();
+          await new Promise((resolve) => setTimeout(resolve, 2000));
           setData(json);
+        } else {
+          throw new Error("Error fetching data");
         }
-      } catch (e: unknown) {
-        console.log(isError(e) ? e.message : "Unknown error!");
+      } catch (e) {
+        console.error(e);
       } finally {
         setIsFetching(false);
       }
@@ -32,4 +32,4 @@ export const useTodo = (url: string) => {
   }, [url]);
 
   return { data, isFetching };
-};
+}
